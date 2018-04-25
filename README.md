@@ -144,8 +144,8 @@ _.query MyCollection,
 Query API
 ===
 
-### $equal
-Performs a strict equality test using `===`. If no operator is provided and the query value isn't a regex then `$equal` is assumed.
+### $eq
+Performs a strict equality test using `===`. If no operator is provided and the query value isn't a regex then `$eq` is assumed.
 
 If the attribute in the model is an array then the query value is searched for in the array in the same way as `$contains`
 
@@ -155,7 +155,7 @@ If the query value is an object (including array) then a deep comparison is perf
 _.query( MyCollection, { title:"Test" });
 // Returns all models which have a "title" attribute of "Test"
 
-_.query( MyCollection, { title: {$equal:"Test"} }); // Same as above
+_.query( MyCollection, { title: {$eq:"Test"} }); // Same as above
 
 _.query( MyCollection, { colors: "red" });
 // Returns models which contain the value "red" in a "colors" attribute that is an array.
@@ -174,7 +174,7 @@ _.query( MyCollection, { colors: {$contains: "red"} });
 ```
 
 ### $ne
-"Not equal", the opposite of $equal, returns all models which don't have the query value
+"Not equal", the opposite of $eq, returns all models which don't have the query value
 
 ```js
 _.query( MyCollection, { title: {$ne:"Test"} });

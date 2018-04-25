@@ -86,7 +86,7 @@ parseParamType = (query) ->
           o.value = parseSubQuery queryParam, key
           o.key = null
         else
-          o.type = "$equal"
+          o.type = "$eq"
           o.value = queryParam
 
       when "Object"
@@ -129,13 +129,13 @@ parseParamType = (query) ->
                   o.getter = utils.makeGetter(key)
                 else o.value = value
             else throw new Error("Query value (#{value}) doesn't match query type: (#{type})")
-      # If the query_param is not an object or a regexp then revert to the default operator: $equal
+      # If the query_param is not an object or a regexp then revert to the default operator: $eq
       else
-        o.type = "$equal"
+        o.type = "$eq"
         o.value = queryParam
 
-    # For "$equal" queries with arrays or objects we need to perform a deep equal
-    if (o.type is "$equal") and (utils.includes(["Object", "Array"], paramType))
+    # For "$eq" queries with arrays or objects we need to perform a deep equal
+    if (o.type is "$eq") and (utils.includes(["Object", "Array"], paramType))
       o.type = "$deepEqual"
     else if utils.isNaN(o.value)
       o.type = "$deepEqual"
@@ -148,7 +148,7 @@ parseParamType = (query) ->
 # are ones which can be evaluated quickly in order to avoid running the slower tags
 tag_sort_order = [
   "$lt", "$lte", "$gt", "$gte",
-  "$exists", "$has", "$type", "$ne", "$equal",
+  "$exists", "$has", "$type", "$ne", "$eq",
   "$mod", "$size", "$between", "$betweene",
   "$startsWith", "$endsWith", "$like", "$likeI",
   "$contains", "$in", "$nin", "$all", "$any", "$none",
@@ -216,7 +216,7 @@ performQuery = (type, value, attr, model, getter) ->
   value = value() if typeof value is 'function'
 
   switch type
-    when "$equal"
+    when "$eq"
       # If the attribute is an array then search for the query value in the array the same as Mongo
       if utils.isArray(attr) then utils.includes(attr, value) else (attr is value)
     when "$deepEqual"       then utils.isEqual(attr, value)

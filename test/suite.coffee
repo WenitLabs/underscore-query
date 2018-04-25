@@ -39,9 +39,9 @@ module.exports = (_query) ->
     assert.equal result.length, 1
     assert.equal result[0].title, "Contact"
 
-  it "Simple equals query with explicit $equal", ->
+  it "Simple equals query with explicit $eq", ->
     a = create()
-    result = _query a, title: {$equal: "About"}
+    result = _query a, title: {$eq: "About"}
     assert.equal result.length, 1
     assert.equal result[0].title, "About"
 
@@ -407,12 +407,12 @@ module.exports = (_query) ->
     result = _query a, likes: {$not:  12}
     assert.equal result.length, 2
 
-  it "$not $equal operator", ->
+  it "$not $eq operator", ->
     a = create()
-    result = _query a, likes: {$not:  {$equal: 12}}
+    result = _query a, likes: {$not:  {$eq: 12}}
     assert.equal result.length, 2
 
-  it "$not $equal operator", ->
+  it "$not $eq operator", ->
     a = create()
     result = _query a, likes: {$not:  {$ne: 12}}
     assert.equal result.length, 1
